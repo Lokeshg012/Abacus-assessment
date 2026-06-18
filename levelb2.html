@@ -16,17 +16,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text-primary); line-height: 1.5; }
         
-        header {
-            position: sticky; top: 0; z-index: 100; background: var(--surface);
-            border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px;
-            display: flex; align-items: center; justify-content: space-between;
-        }
+        header { position: sticky; top: 0; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
         .header-left { display: flex; align-items: center; gap: 16px; }
-        .back-btn {
-            display: inline-flex; align-items: center; gap: 6px; background: none;
-            border: 1px solid var(--border); color: var(--text-secondary);
-            padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600;
-        }
+        .back-btn { display: inline-flex; align-items: center; gap: 6px; background: none; border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; }
         .back-btn:hover { background: var(--bg); border-color: var(--border-hover); }
         .header-title { font-size: 14px; font-weight: 700; letter-spacing: -0.3px; }
         .header-level { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
@@ -40,36 +32,21 @@
         .progress-track { height: 3px; background: var(--border); border-radius: 4px; margin-bottom: 28px; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s ease; }
         
-        .q-card {
-            background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-            padding: 20px 24px; margin-bottom: 12px;
-        }
+        .q-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 12px; }
         .q-top { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
-        .q-num {
-            width: 28px; height: 28px; border-radius: 6px; background: var(--bg); display: flex;
-            align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--text-secondary);
-        }
+        .q-num { width: 28px; height: 28px; border-radius: 6px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--text-secondary); }
         .q-expr { font-family: 'JetBrains Mono', monospace; font-size: 17px; font-weight: 700; letter-spacing: 0.5px; }
         .opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .opt {
-            background: var(--surface); border: 1.5px solid var(--border); padding: 10px 8px;
-            border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; text-align: center;
-        }
+        .opt { background: var(--surface); border: 1.5px solid var(--border); padding: 10px 8px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; text-align: center; }
         .opt:hover { background: var(--accent-light); border-color: var(--accent); }
         .opt.selected { background: var(--brand); color: #fff; border-color: var(--brand); }
 
         .pagination { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin: 32px 0; }
-        .pg-btn {
-            width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
-            background: var(--surface); cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-secondary);
-        }
+        .pg-btn { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-secondary); }
         .pg-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
         .pg-btn.touched { background: var(--green-bg); color: var(--green); border-color: #bbf7d0; }
 
-        .submit-btn {
-            display: block; width: 100%; max-width: 260px; margin: 0 auto; padding: 14px 24px;
-            background: var(--brand); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer;
-        }
+        .submit-btn { display: block; width: 100%; max-width: 260px; margin: 0 auto; padding: 14px 24px; background: var(--brand); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; }
 
         .overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none;
@@ -116,7 +93,7 @@
     <div class="header-right">
         <span class="header-stat"><strong class="timer-val" id="timer">10:00</strong></span>
         <span class="divider-dot"></span>
-        <span class="header-stat"><strong id="attempted">0</strong> / <span id="totalQs"></span></span>
+        <span class="header-stat"><strong id="attempted">0</strong> / <span id="totalQs">177</span></span>
     </div>
 </header>
 
@@ -142,7 +119,7 @@
 <div class="overlay" id="resultModal">
     <div class="dialog result-dialog">
         <div class="result-top">
-            <h2>Test Complete</h2><span class="sub" style="font-size:12px; color:var(--text-muted)">Beginner 2 Assessment</span>
+            <h2>Test Complete</h2><span class="sub" style="font-size:12px; color:var(--text-muted)">Beginner 3 Assessment</span>
         </div>
         <div style="background: var(--bg); margin: 16px 28px 0; padding: 12px 16px; border-radius: 8px; font-size: 12px; color: var(--text-secondary); border: 1px solid var(--border);">
             <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
@@ -172,6 +149,7 @@
 </div>
 
 <script>
+    // FULL 177 QUESTION LIST INCLUDED
     const rawData = [
         { q: "55+33-66", o: [22, 23, 32, 42] },
         { q: "11+33-22", o: [23, 32, 22, 12] },
@@ -189,7 +167,7 @@
         { q: "22+66+11", o: [89, 99, 98, 97] },
         { q: "44-22+55", o: [87, 97, 88, 77] },
         { q: "49-27+15", o: [38, 36, 37, 47] },
-        { q: "85-55+11", o: [34, 41, 42, 43] },
+        { q: "85-55+11", o: [34, 44, 42, 43] },
         { q: "99-77-11", o: [22, 33, 11, 12] },
         { q: "39+60-23", o: [66, 77, 78, 76] },
         { q: "88-22+33", o: [89, 98, 97, 99] },
@@ -248,15 +226,118 @@
         { q: "43+5-26", o: [32, 22, 23, 24] },
         { q: "66-5+35", o: [69, 96, 97, 86] },
         { q: "24-3+53", o: [64, 74, 77, 75] },
-        { q: "74+5-79", o: [0, 3, 2, 1] }
+        { q: "74+5-79", o: [0, 3, 2, 1] },
+        { q: "91+7-77", o: [31, 21, 22, 23] },
+        { q: "44-4-40", o: [3, 0, 1, 2] },
+        { q: "81+8-59", o: [30, 31, 20, 25] },
+        { q: "11+6+72", o: [89, 99, 87, 88] },
+        { q: "25+2+72", o: [89, 97, 98, 99] },
+        { q: "44-2+5-7", o: [40, 50, 60, 41] },
+        { q: "90+1+5+2", o: [89, 99, 98, 97] },
+        { q: "29-6-3+5", o: [35, 26, 24, 25] },
+        { q: "45+4-6+5", o: [58, 38, 48, 47] },
+        { q: "55+3-2-6", o: [40, 50, 60, 51] },
+        { q: "35+4-5+5", o: [49, 29, 39, 38] },
+        { q: "99-2-7+6", o: [69, 96, 86, 97] },
+        { q: "33+5-7+8", o: [49, 29, 39, 38] },
+        { q: "85+1+3-6", o: [93, 73, 83, 84] },
+        { q: "45+2-7+9", o: [39, 48, 47, 49] },
+        { q: "49-6-3+7", o: [57, 37, 46, 47] },
+        { q: "81+1+5+2", o: [99, 79, 89, 87] },
+        { q: "96-5-1+9", o: [98, 97, 89, 99] },
+        { q: "74+5-6-1", o: [81, 62, 72, 73] },
+        { q: "46+2-7+6", o: [57, 47, 46, 48] },
+        { q: "84+5-9+2", o: [83, 81, 82, 72] },
+        { q: "62+2+5-6", o: [36, 63, 62, 61] },
+        { q: "91+3-2+5", o: [87, 97, 98, 96] },
+        { q: "45+4-7+5", o: [47, 57, 48, 45] },
+        { q: "62+12-51+75-35", o: [62, 63, 53, 64] },
+        { q: "44+55-35+15-14", o: [55, 64, 65, 66] },
+        { q: "45-20+14-32+61", o: [67, 68, 69, 78] },
+        { q: "11+21-22+85-65", o: [30, 20, 10, 31] },
+        { q: "20+11+60-21+13", o: [73, 93, 83, 82] },
+        { q: "35-10+23-45+81", o: [83, 85, 84, 74] },
+        { q: "76+22-17+18-73", o: [25, 23, 24, 26] },
+        { q: "54+45-76+26-27", o: [32, 22, 21, 23] },
+        { q: "49-35+80-41+10", o: [62, 64, 63, 52] },
+        { q: "11+13+75-24-60", o: [16, 14, 15, 13] },
+        { q: "88-76+25", o: [36, 35, 45, 37] },
+        { q: "79+20-39", o: [60, 61, 50, 62] },
+        { q: "38-37+48", o: [39, 48, 47, 49] },
+        { q: "64+25-23", o: [56, 65, 64, 66] },
+        { q: "44-20+75", o: [99, 98, 97, 89] },
+        { q: "78-16+27", o: [99, 98, 99, 89] },
+        { q: "31+18-47", o: [1, 3, 0, 2] },
+        { q: "74+25-36", o: [64, 65, 76, 63] },
+        { q: "84-24+36", o: [86, 95, 94, 96] },
+        { q: "55+32-11", o: [86, 76, 96, 66] },
+        { q: "66-6+39-7", o: [82, 72, 92, 83] },
+        { q: "21+8+70-6", o: [83, 93, 84, 94] },
+        { q: "22+5+60-7", o: [70, 81, 82, 80] },
+        { q: "32-1+53-4", o: [70, 90, 80, 81] },
+        { q: "48-6-30+5", o: [16, 15, 18, 17] },
+        { q: "72+5+22-5", o: [94, 95, 96, 97] },
+        { q: "31+7+50-5", o: [82, 84, 85, 83] },
+        { q: "44-3+56-2", o: [95, 85, 86, 94] },
+        { q: "23+6+20-4", o: [46, 55, 54, 45] },
+        { q: "70+3+25+1", o: [99, 89, 92, 91] },
+        { q: "2+1+5+1-6+5", o: [9, 7, 6, 8] },
+        { q: "5+4-5-2+6-7", o: [0, 2, 3, 1] },
+        { q: "9-5-2+6-8+4", o: [2, 5, 6, 4] },
+        { q: "1+8-7+5-6+5", o: [5, 6, 7, 8] },
+        { q: "3-2+7-5+6-7", o: [5, 4, 3, 2] },
+        { q: "2-1+5+3-4+3", o: [9, 7, 8, 6] },
+        { q: "5+4-3+2-6+5", o: [1, 8, 9, 7] },
+        { q: "6+2-5+6-3-6", o: [2, 0, 1, 3] },
+        { q: "1+6-2+4-2-5", o: [3, 0, 1, 2] },
+        { q: "5+1+1-7+2+5", o: [9, 6, 8, 7] },
+        { q: "55+11+22", o: [89, 87, 86, 88] },
+        { q: "83+15-76", o: [23, 21, 22, 32] },
+        { q: "16+13-10", o: [20, 18, 17, 19] },
+        { q: "48-27+22", o: [43, 41, 40, 42] },
+        { q: "33+15-26", o: [32, 22, 21, 31] },
+        { q: "45-20+72", o: [98, 96, 95, 97] },
+        { q: "43-32+85", o: [86, 87, 96, 97] },
+        { q: "14+30-22", o: [23, 24, 32, 22] },
+        { q: "95-40+33", o: [87, 86, 96, 88] },
+        { q: "39-13+73", o: [89, 90, 98, 99] },
+        { q: "42+52-34", o: [70, 50, 40, 60] },
+        { q: "11+55+21", o: [97, 87, 86, 96] },
+        { q: "74-14+15", o: [65, 85, 55, 75] },
+        { q: "29+50-65", o: [15, 16, 13, 14] },
+        { q: "21+76-42", o: [65, 45, 55, 75] },
+        { q: "44-24+55", o: [76, 74, 75, 73] },
+        { q: "90-20-70", o: [3, 0, 2, 1] },
+        { q: "46+3+50", o: [89, 97, 98, 99] },
+        { q: "28-7+25", o: [45, 44, 47, 46] },
+        { q: "80+4-62", o: [21, 23, 20, 22] },
+        { q: "35+2-27", o: [11, 20, 21, 10] },
+        { q: "83+5-25", o: [53, 73, 63, 72] },
+        { q: "34-3+68", o: [99, 98, 97, 89] },
+        { q: "18-2+33", o: [50, 49, 48, 47] },
+        { q: "16+2+31", o: [50, 48, 47, 49] },
+        { q: "72+5+12", o: [99, 89, 98, 88] },
+        { q: "84+5-2-2-5", o: [70, 90, 80, 79] },
+        { q: "19-2-6+2+5", o: [19, 17, 16, 18] },
+        { q: "35+4-7+6-8", o: [20, 30, 40, 50] },
+        { q: "44+5-8+7+1", o: [39, 49, 29, 40] },
+        { q: "22+7-1-5-3", o: [10, 20, 30, 40] },
+        { q: "86-1+4-6+5", o: [78, 88, 98, 68] },
+        { q: "79-6+5-6+5", o: [87, 97, 77, 76] },
+        { q: "32+6-5+1+5", o: [39, 38, 37, 48] },
+        { q: "50+1+6+1-7", o: [41, 61, 51, 62] },
+        { q: "86-5+3+5-7", o: [81, 80, 82, 83] },
+        { q: "13+5-1-2+4", o: [20, 21, 18, 19] }
     ];
 
-    const TOTAL = rawData.length;
+    const TOTAL = rawData.length; // 177 questions
     const PER_PAGE = 25;
-    const PAGES = Math.ceil(TOTAL / PER_PAGE);
+    const PAGES = Math.ceil(TOTAL / PER_PAGE); // 8 pages
 
     document.getElementById('totalQs').textContent = TOTAL;
-    document.getElementById('resTotal').textContent = TOTAL;
+    if(document.getElementById('resTotalDisplay')) {
+        document.getElementById('resTotalDisplay').textContent = TOTAL;
+    }
 
     function evaluateMath(str) { return Function(`'use strict'; return (${str})`)(); }
 
@@ -265,6 +346,7 @@
         questions = rawData.map(item => ({
             text: item.q, options: item.o.sort(() => Math.random() - 0.5), correct: evaluateMath(item.q)
         }));
+        // Shuffle the final list so test isn't the same order
         for (let i = questions.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [questions[i], questions[j]] = [questions[j], questions[i]];
@@ -316,6 +398,7 @@
     }
 
     function pick(idx, val) { answers[idx] = val; sessionStorage.setItem('b2_answers', JSON.stringify(answers)); renderPage(currentPage); }
+    
     function updateStats() {
         const n = Object.keys(answers).length; document.getElementById('attempted').textContent = n;
         document.getElementById('progressBar').style.width = (n / TOTAL * 100) + '%';
@@ -361,7 +444,7 @@
         sessionStorage.removeItem("studentName");
         sessionStorage.removeItem("studentBranch");
         document.getElementById('resultModal').classList.add('open');
-        sessionStorage.removeItem('b2_questions'); sessionStorage.removeItem('b2_answers'); sessionStorage.removeItem('b2_time');
+        sessionStorage.removeItem('b3_questions'); sessionStorage.removeItem('b3_answers'); sessionStorage.removeItem('b3_time');
     }
 
     function confirmBack() { document.getElementById('backWarn').classList.add('open'); }
