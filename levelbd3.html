@@ -283,7 +283,11 @@
                 options: item.o ? item.o.sort(() => Math.random() - 0.5) : buildOptions(correctVal)
             };
         });
-        
+        // Randomly shuffle all questions (PASTE HERE)
+        for (let i = questions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [questions[i], questions[j]] = [questions[j], questions[i]];
+        }
         // NO SHUFFLE - This guarantees your text questions stay fixed on the very last page!
         sessionStorage.setItem('pd3_questions', JSON.stringify(questions));
     }
