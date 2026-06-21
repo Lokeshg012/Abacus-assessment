@@ -664,7 +664,7 @@
             </div>
 
             <div class="score-display">
-                <span class="score-big" id="scoreNum">0</span><span class="score-total"> / 200</span>
+                <span class="score-big" id="scoreNum">0</span><span class="score-total"> / 225</span>
                 <div class="score-pct" id="scorePct">0%</div>
                 <div class="grade-badge" id="gradeBadge">-</div>
             </div>
@@ -696,7 +696,7 @@
     </div>
 
     <script>
-        const TOTAL = 200; // 8 blocks of 25 questions
+        const TOTAL = 225; // 9 blocks of 25 questions
         const PER_PAGE = 25;
         const PAGES = TOTAL / PER_PAGE;
 
@@ -839,6 +839,8 @@
 
             // 8. 25 ques: 2-digit 4 rows (+ -)
             let b8 = []; for (let i = 0; i < 25; i++) b8.push(makeRowsQ(2, 4)); appendShuffled(b8);
+
+            let b9 = []; for (let i = 0; i < 25; i++) b9.push(makeMulTableQ()); appendShuffled(b9);
 
             questions = pool;
             sessionStorage.setItem('l1_questions', JSON.stringify(questions));

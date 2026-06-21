@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre Demo 3 - Abacus Assessment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f0f4f8; --surface: #ffffff; --border: #dce3ed; --border-hover: #94a3b8;
+            --text-primary: #1e293b; --text-secondary: #475569; --text-muted: #94a3b8;
+            --brand: #1e40af; --brand-light: #2563eb; --accent: #2563eb; --accent-light: #eff6ff;
+            --green: #16a34a; --green-bg: #f0fdf4; --red: #dc2626; --red-bg: #fef2f2;
+            --amber: #d97706; --amber-bg: #fffbeb; --radius: 10px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text-primary); line-height: 1.5; }
+        
+        header {
+            position: sticky; top: 0; z-index: 100; background: var(--surface);
+            border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .header-left { display: flex; align-items: center; gap: 16px; }
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 6px; background: none;
+            border: 1px solid var(--border); color: var(--text-secondary);
+            padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.15s;
+        }
+        .back-btn:hover { background: var(--bg); border-color: var(--border-hover); }
+        .header-title { font-size: 14px; font-weight: 700; letter-spacing: -0.3px; }
+        .header-level { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+        .header-right { display: flex; align-items: center; gap: 20px; }
+        .header-stat { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+        .header-stat strong { font-weight: 700; color: var(--text-primary); }
+        .timer-val { color: var(--red) !important; font-variant-numeric: tabular-nums; }
+        .divider-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border); }
+
+        .container { max-width: 820px; margin: 0 auto; padding: 24px 20px 60px; }
+        .progress-track { height: 3px; background: var(--border); border-radius: 4px; margin-bottom: 28px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s ease; }
+        
+        .q-card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 20px 24px; margin-bottom: 12px; transition: border-color 0.15s;
+        }
+        .q-card:hover { border-color: var(--border-hover); }
+        .q-top { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+        .q-num {
+            width: 28px; height: 28px; border-radius: 6px; background: var(--bg); display: flex;
+            align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--text-secondary); flex-shrink: 0;
+        }
+        .q-expr { font-family: 'JetBrains Mono', monospace; font-size: 17px; font-weight: 700; letter-spacing: 0.5px; }
+        .opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .opt {
+            background: var(--surface); border: 1.5px solid var(--border); padding: 10px 8px;
+            border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; text-align: center; transition: all 0.12s; user-select: none;
+        }
+        .opt:hover { background: var(--accent-light); border-color: var(--accent); }
+        .opt.selected { background: var(--brand); color: #fff; border-color: var(--brand); }
+
+        .pagination { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin: 32px 0; }
+        .pg-btn {
+            width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--surface); cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-secondary); transition: 0.15s;
+        }
+        .pg-btn:hover { border-color: var(--border-hover); }
+        .pg-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+        .pg-btn.touched { background: var(--green-bg); color: var(--green); border-color: #bbf7d0; }
+
+        .submit-btn {
+            display: block; width: 100%; max-width: 260px; margin: 0 auto; padding: 14px 24px;
+            background: var(--brand); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.2s;
+        }
+        .submit-btn:hover { background: #1e3a8a; }
+
+        .overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none;
+            align-items: center; justify-content: center; z-index: 500; padding: 20px; backdrop-filter: blur(4px);
+        }
+        .overlay.open { display: flex; }
+        .dialog { background: var(--surface); border-radius: 14px; width: 100%; max-width: 380px; text-align: center; padding: 28px 24px 24px; }
+        .warn-icon { width: 44px; height: 44px; border-radius: 50%; background: var(--red-bg); display: flex; margin: 0 auto 16px; align-items: center; justify-content: center; }
+        .warn-actions { display: flex; gap: 8px; margin-top: 20px;}
+        .warn-actions button { flex: 1; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; transition: 0.15s; }
+        .btn-cancel { background: var(--bg); border: 1px solid var(--border); }
+        .btn-danger { background: var(--red); color: white; }
+
+        .result-dialog { max-width: 440px; padding: 0; }
+        .result-top { padding: 28px 28px 0; }
+        .score-display { padding: 24px 0 16px; }
+        .score-big { font-size: 56px; font-weight: 900; line-height: 1; }
+        .result-bar-track { height: 4px; background: var(--border); margin: 0 28px; border-radius: 4px; overflow: hidden; }
+        .result-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+        .result-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); margin: 20px 28px 0; border-radius: 8px; overflow: hidden; }
+        .rs-item { background: var(--surface); padding: 14px 8px; }
+        .rs-val { font-size: 20px; font-weight: 800; }
+        .rs-lbl { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+        .grade-badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-top: 12px; }
+        .result-footer { display: flex; gap: 8px; padding: 20px 28px; }
+        .result-footer button { flex: 1; padding: 11px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; }
+        .rf-secondary { background: var(--bg); border: 1px solid var(--border); }
+        .rf-primary { background: var(--brand); color: white; }
+
+        @media (max-width: 600px) { .opts { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-left">
+        <button class="back-btn" onclick="confirmBack()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+            Back
+        </button>
+        <div>
+            <div class="header-title">Abacus Assessment</div>
+            <div class="header-level">Pre Demo 3</div>
+        </div>
+    </div>
+    <div class="header-right">
+        <span class="header-stat"><strong class="timer-val" id="timer">10:00</strong></span>
+        <span class="divider-dot"></span>
+        <span class="header-stat"><strong id="attempted">0</strong> / <span id="totalQs">200</span></span>
+    </div>
+</header>
+
+<div class="container">
+    <div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
+    <div id="questions"></div>
+    <div class="pagination" id="pagination"></div>
+    <button class="submit-btn" onclick="handleSubmission()">Submit Test</button>
+</div>
+
+<div class="overlay" id="backWarn">
+    <div class="dialog">
+        <div class="warn-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <h3>Leave this test?</h3>
+        <p>All your answers and remaining time will be lost.</p>
+        <div class="warn-actions">
+            <button class="btn-cancel" onclick="closeBackWarn()">Continue Test</button>
+            <button class="btn-danger" onclick="goBack()">Leave</button>
+        </div>
+    </div>
+</div>
+
+<div class="overlay" id="resultModal">
+    <div class="dialog result-dialog">
+        <div class="result-top">
+            <h2>Test Complete</h2>
+            <span class="sub">Assessment Results</span>
+        </div>
+        
+        <div style="background: var(--bg); margin: 16px 28px 0; padding: 12px 16px; border-radius: 8px; font-size: 12px; color: var(--text-secondary); border: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span><strong>Name:</strong> <span id="resName"></span></span>
+                <span><strong>Branch:</strong> <span id="resBranch"></span></span>
+            </div>
+            <div style="display: flex; justify-content: center; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border-hover); font-weight: 500;">
+                <span id="resDateTime"></span>
+            </div>
+        </div>
+
+        <div class="score-display">
+            <span class="score-big" id="scoreNum">0</span><span class="score-total"> / <span id="resTotalDisplay"></span></span>
+            <div class="score-pct" id="scorePct">0%</div>
+            <div class="grade-badge" id="gradeBadge">-</div>
+        </div>
+
+        <div class="result-bar-track">
+            <div class="result-bar-fill" id="resultBar" style="width:0%"></div>
+        </div>
+
+        <div class="result-stats">
+            <div class="rs-item">
+                <div class="rs-val" id="rsCorrect" style="color:var(--green)">0</div>
+                <div class="rs-lbl">Correct</div>
+            </div>
+            <div class="rs-item">
+                <div class="rs-val" id="rsWrong" style="color:var(--red)">0</div>
+                <div class="rs-lbl">Wrong</div>
+            </div>
+            <div class="rs-item">
+                <div class="rs-val" id="rsSkipped" style="color:var(--amber)">0</div>
+                <div class="rs-lbl">Skipped</div>
+            </div>
+        </div>
+
+        <div class="result-footer">
+            <button class="rf-secondary" onclick="retakeTest()">Retake</button>
+            <button class="rf-primary" onclick="location.href='index.html'">Back to Dashboard</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // EXACTLY 200 Questions (175 Image + 25 Text)
+    const rawData = [
+        // 25 Handwritten
+        { q: "5+1+2-6" }, { q: "3-1+5+2" }, { q: "5+3-2-5" }, { q: "9-3+2-5" }, { q: "5+4-3+1" },
+        { q: "7+2-5-1" }, { q: "9-1+1-9" }, { q: "4+5-7+6" }, { q: "8+1-7-2" }, { q: "2+1-3+5" },
+        { q: "6-5+3-2" }, { q: "9-6+5+1" }, { q: "8-7+5+3" }, { q: "1+8-7+2" }, { q: "4+5-7+1" },
+        { q: "5+3-7+2" }, { q: "7+2-7+6" }, { q: "1+5-6+9" }, { q: "5+2+1-6" }, { q: "9-6+5-7" },
+        { q: "7-2+4-3" }, { q: "6-1+4-3" }, { q: "3+6-4-5" }, { q: "7+2-5-4" }, { q: "3+5-7+8" },
+        
+        // 70 from Sample Paper 3 (Image 4)
+        { q: "4-2+1" }, { q: "3+1-3" }, { q: "2+2-3" }, { q: "3+1-3" }, { q: "1+2-3" }, { q: "4-1-3" }, { q: "4-2+2" }, { q: "4-2+2" }, { q: "4-3+1" }, { q: "4-3-1" },
+        { q: "5+2+1" }, { q: "2+5-1" }, { q: "5+3-2" }, { q: "5+2+2" }, { q: "2-1+5" }, { q: "1+2+5" }, { q: "3-2+3" }, { q: "3-2+5" }, { q: "5+4-5" }, { q: "2+5+2" },
+        { q: "6+1-1" }, { q: "6+3-2" }, { q: "6-1+2" }, { q: "7+1-1" }, { q: "7+1-2" }, { q: "7-1+1" }, { q: "8+1-1" }, { q: "8+1-2" }, { q: "8+1-3" }, { q: "9-3+3" },
+        { q: "9-4+4" }, { q: "9-5+5" }, { q: "9-4+2" }, { q: "6+1+1" }, { q: "7+1+1" }, { q: "8+1-2" }, { q: "9-4-2" }, { q: "9-3+2" }, { q: "7-2+4" }, { q: "3-1+6" },
+        { q: "5+2+2" }, { q: "1+3-2" }, { q: "6+2-3" }, { q: "7+2-4" }, { q: "3-3+1" }, { q: "4-3+2" }, { q: "8-3+4" }, { q: "3-2+1" }, { q: "4-2+2" }, { q: "7-2+3" },
+        { q: "9-5-1" }, { q: "6-5+2" }, { q: "3-3+2" }, { q: "4-2+2" }, { q: "2-2+4" }, { q: "4-4+1" }, { q: "3-3+2" }, { q: "1+3-2" }, { q: "1+3-2" }, { q: "8-3+2" },
+        { q: "2-2+1" }, { q: "4+5-3" }, { q: "6-1+3" }, { q: "8-3+4" }, { q: "9-4+3" }, { q: "5+4-2" }, { q: "4-3+2" }, { q: "8-3+2" }, { q: "9-5-2" }, { q: "4+2-2" },
+        
+        // 50 from Sample Paper 2 pg 6 (Image 2)
+        { q: "2-1+3" }, { q: "4-2-2" }, { q: "4-1-2" }, { q: "1+2-3" }, { q: "4-2+2" }, { q: "2-1+3" }, { q: "7-5+1" }, { q: "1+2-1" }, { q: "3+1+5" }, { q: "2+5-1" },
+        { q: "6+2-3" }, { q: "6-1+3" }, { q: "5+3-5" }, { q: "3-1+5" }, { q: "8-5-3" }, { q: "5+4-5" }, { q: "5+4-2" }, { q: "6+3-8" }, { q: "7-2+4" }, { q: "9-4+2" },
+        { q: "7+1-7" }, { q: "5+2-2" }, { q: "9-5-2" }, { q: "9-4+1" }, { q: "2+1+1" }, { q: "9-1-2" }, { q: "4-2+1" }, { q: "5+3-2" }, { q: "7-2+3" }, { q: "8-3+2" },
+        { q: "3-2+3" }, { q: "5+2+1" }, { q: "2+5-1" }, { q: "8-1-2" }, { q: "7-1+1" }, { q: "6+1-5" }, { q: "5+4-1" }, { q: "7+2-3" }, { q: "6-1-5" }, { q: "5+3-6" },
+        { q: "19-8+3" }, { q: "37+2-7" }, { q: "49-7+2" }, { q: "58-2+3" }, { q: "17+2-6" }, { q: "38-3+2" }, { q: "44+5-6" }, { q: "59-5-2" }, { q: "66-5+3" }, { q: "77+2-6" },
+        
+        // 30 from Sample Paper 2 pg 5 (Image 3)
+        { q: "8-3-5" }, { q: "9-1-6" }, { q: "7-1-1" }, { q: "5+2-1" }, { q: "6+3-2" }, { q: "8+1-7" }, { q: "8-3-5" }, { q: "2+2+5" }, { q: "9-4-5" }, { q: "2+7-8" },
+        { q: "7+1-1" }, { q: "9-4-5" }, { q: "7-2+4" }, { q: "3-1+6" }, { q: "7+1-2" }, { q: "7-1+1" }, { q: "8+1-1" }, { q: "2+2+5" }, { q: "8-1-2" }, { q: "5+4-5" },
+        { q: "18-5-3" }, { q: "29-7+6" }, { q: "37-5+1" }, { q: "47-5-1" }, { q: "26-5+1" }, { q: "25+3-7" }, { q: "38-6+7" }, { q: "19-7+5" }, { q: "27-2+3" }, { q: "46+2-3" },
+        
+        // 25 Provided via Text Prompt (Placed exactly at the end)
+        { q: "84-23+27", o: [89, 87, 99, 88] },
+        { q: "58+41-99", o: [1, 3, 2, 0] },
+        { q: "88-26+25", o: [87, 89, 88, 86] },
+        { q: "94-52-21", o: [19, 20, 22, 21] },
+        { q: "22+22+55", o: [89, 99, 97, 87] },
+        { q: "75-25+35", o: [65, 75, 85, 95] },
+        { q: "49-25+60", o: [84, 74, 85, 75] },
+        { q: "81+15-71", o: [35, 36, 25, 26] },
+        { q: "95-35+26", o: [68, 78, 88, 86] },
+        { q: "58+40-98", o: [3, 2, 1, 0] },
+        { q: "92-21+18", o: [89, 99, 88, 98] },
+        { q: "39-28+55", o: [76, 67, 77, 66] },
+        { q: "96-55-31", o: [20, 10, 11, 21] },
+        { q: "48-23+24", o: [49, 39, 48, 38] },
+        { q: "68+11+20", o: [89, 88, 98, 99] },
+        { q: "80-20+26", o: [76, 75, 85, 86] },
+        { q: "22+77-92", o: [6, 8, 9, 7] },
+        { q: "44+5-13", o: [35, 36, 37, 34] },
+        { q: "53+6+20", o: [89, 99, 69, 79] },
+        { q: "73+6-17", o: [62, 63, 52, 53] },
+        { q: "80+3-2+6", o: [78, 87, 88, 77] },
+        { q: "69-8+7-5", o: [63, 43, 53, 73] },
+        { q: "94+5-7+5", o: [97, 87, 88, 98] },
+        { q: "92+7-9+5", o: [96, 86, 85, 95] },
+        { q: "60+4+5-8", o: [51, 52, 61, 62] }
+    ];
+
+    const TOTAL = rawData.length;
+    const PER_PAGE = 25;
+    const PAGES = Math.ceil(TOTAL / PER_PAGE);
+
+    document.getElementById('totalQs').textContent = TOTAL;
+    if(document.getElementById('resTotalDisplay')) {
+        document.getElementById('resTotalDisplay').textContent = TOTAL;
+    }
+
+    function evaluateMath(str) { return Function(`'use strict'; return (${str})`)(); }
+
+    function buildOptions(correct) {
+        let opts = new Set([correct]);
+        let maxSpread = correct > 20 ? 10 : 3;
+        while(opts.size < 4) {
+            let cand = correct + Math.floor(Math.random() * (maxSpread * 2 + 1)) - maxSpread;
+            if(cand >= 0 && cand !== correct) opts.add(cand);
+        }
+        return Array.from(opts).sort(() => Math.random() - 0.5);
+    }
+
+    let questions = JSON.parse(sessionStorage.getItem('pd3_questions'));
+    if (!questions) {
+        questions = rawData.map(item => {
+            let correctVal = evaluateMath(item.q);
+            return {
+                text: item.q,
+                correct: correctVal,
+                options: item.o ? item.o.sort(() => Math.random() - 0.5) : buildOptions(correctVal)
+            };
+        });
+        
+        // NO SHUFFLE - This guarantees your text questions stay fixed on the very last page!
+        sessionStorage.setItem('pd3_questions', JSON.stringify(questions));
+    }
+
+    let answers = JSON.parse(sessionStorage.getItem('pd3_answers')) || {};
+    let timeLeft = parseInt(sessionStorage.getItem('pd3_time')) || 600;
+    let currentPage = 1;
+    let timerInterval;
+
+    const GRADES = [
+        { min: 95, grade: 'A+', color: '#166534', bg: '#dcfce7', bar: '#16a34a' },
+        { min: 85, grade: 'A',  color: '#155e75', bg: '#cffafe', bar: '#0891b2' },
+        { min: 70, grade: 'B',  color: '#1e40af', bg: '#dbeafe', bar: '#3b82f6' },
+        { min: 55, grade: 'C',  color: '#92400e', bg: '#fef3c7', bar: '#d97706' },
+        { min: 40, grade: 'D',  color: '#9a3412', bg: '#ffedd5', bar: '#ea580c' },
+        { min: 0,  grade: 'F',  color: '#991b1b', bg: '#fee2e2', bar: '#dc2626' }
+    ];
+    const getGrade = pct => GRADES.find(g => pct >= g.min);
+
+    function renderPage(page) {
+        currentPage = page;
+        const el = document.getElementById('questions'); el.innerHTML = '';
+        const start = (page - 1) * PER_PAGE;
+
+        questions.slice(start, start + PER_PAGE).forEach((q, i) => {
+            const idx = start + i;
+            let displayQ = q.text.replace(/\+/g, ' + ').replace(/\-/g, ' - ');
+            const card = document.createElement('div'); card.className = 'q-card';
+            card.innerHTML = `<div class="q-top"><div class="q-num">${idx + 1}</div><div class="q-expr">${displayQ} = ?</div></div>
+                <div class="opts">${q.options.map(o => `<button class="opt${answers[idx] === o ? ' selected' : ''}" onclick="pick(${idx},${o})">${o}</button>`).join('')}</div>`;
+            el.appendChild(card);
+        });
+        renderPagination(); updateStats();
+    }
+
+    function renderPagination() {
+        const nav = document.getElementById('pagination'); nav.innerHTML = '';
+        for (let i = 1; i <= PAGES; i++) {
+            const s = (i - 1) * PER_PAGE;
+            const done = questions.slice(s, s + PER_PAGE).some((_, j) => answers[s + j] != null);
+            const btn = document.createElement('button');
+            btn.className = `pg-btn${i === currentPage ? ' active' : ''}${done ? ' touched' : ''}`;
+            btn.textContent = i; btn.onclick = () => { renderPage(i); scrollTo({ top: 0, behavior: 'smooth' }); };
+            nav.appendChild(btn);
+        }
+    }
+
+    function pick(idx, val) { answers[idx] = val; sessionStorage.setItem('pd3_answers', JSON.stringify(answers)); renderPage(currentPage); }
+    
+    function updateStats() {
+        const n = Object.keys(answers).length; document.getElementById('attempted').textContent = n;
+        document.getElementById('progressBar').style.width = (n / TOTAL * 100) + '%';
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timeLeft--; sessionStorage.setItem('pd3_time', timeLeft);
+            const m = Math.floor(timeLeft / 60), s = timeLeft % 60;
+            document.getElementById('timer').textContent = `${m}:${s < 10 ? '0' + s : s}`;
+            if (timeLeft <= 0) handleSubmission();
+        }, 1000);
+    }
+
+    function handleSubmission() {
+        clearInterval(timerInterval);
+        
+        let correct = 0; 
+        questions.forEach((q, i) => { if (answers[i] === q.correct) correct++; });
+        
+        const attempted = Object.keys(answers).length;
+        const wrong = attempted - correct;
+        const skipped = TOTAL - attempted;
+        const pct = Math.round((correct / TOTAL) * 100);
+        const band = getGrade(pct);
+
+        document.getElementById('scoreNum').textContent = correct;
+        
+        // Ensure the Total matches the specific level dynamically
+        if(document.getElementById('resTotalDisplay')) {
+            document.getElementById('resTotalDisplay').textContent = TOTAL;
+        }
+
+        document.getElementById('scorePct').textContent = pct + '%'; 
+        document.getElementById('scorePct').style.color = band.color;
+        
+        const badge = document.getElementById('gradeBadge'); 
+        badge.textContent = band.grade; 
+        badge.style.background = band.bg; 
+        badge.style.color = band.color;
+        
+        const bar = document.getElementById('resultBar');
+        bar.style.background = band.bar; 
+        setTimeout(() => { bar.style.width = pct + '%'; }, 50);
+        
+        document.getElementById('rsCorrect').textContent = correct; 
+        document.getElementById('rsWrong').textContent = wrong; 
+        document.getElementById('rsSkipped').textContent = skipped;
+
+        // Retrieve details from session (Checks both key formats just to be safe)
+        const sName = sessionStorage.getItem("student_name") || sessionStorage.getItem("studentName") || "Guest Student";
+        const sBranch = sessionStorage.getItem("student_center") || sessionStorage.getItem("studentBranch") || "Unknown Center";
+        
+        // Generate current IST Date & Time
+        const istDateTime = new Date().toLocaleString("en-IN", { 
+            timeZone: "Asia/Kolkata",
+            dateStyle: "medium", 
+            timeStyle: "medium" 
+        });
+
+        // Inject into DOM
+        document.getElementById('resName').textContent = sName;
+        document.getElementById('resBranch').textContent = sBranch;
+        document.getElementById('resDateTime').textContent = istDateTime + " (IST)";
+
+        // Save timestamp back to dashboard
+        sessionStorage.setItem('last_submission_time', istDateTime);
+
+        document.getElementById('resultModal').classList.add('open');
+
+        sessionStorage.removeItem('pd3_questions');
+        sessionStorage.removeItem('pd3_answers');
+        sessionStorage.removeItem('pd3_time');
+    }
+
+    function confirmBack() { document.getElementById('backWarn').classList.add('open'); }
+    function closeBackWarn() { document.getElementById('backWarn').classList.remove('open'); }
+    function goBack() { sessionStorage.removeItem('pd3_questions'); sessionStorage.removeItem('pd3_answers'); sessionStorage.removeItem('pd3_time'); window.location.href = 'index.html'; }
+    function retakeTest() { sessionStorage.removeItem('pd3_questions'); sessionStorage.removeItem('pd3_answers'); sessionStorage.removeItem('pd3_time'); location.reload(); }
+
+    const im = Math.floor(timeLeft / 60), is = timeLeft % 60; document.getElementById('timer').textContent = `${im}:${is < 10 ? '0' + is : is}`;
+    renderPage(1); startTimer();
+</script>
+</body>
+</html>

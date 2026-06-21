@@ -388,7 +388,7 @@
     <div class="header-right">
         <span class="header-stat"><strong class="timer-val" id="timer">10:00</strong></span>
         <span class="divider-dot"></span>
-        <span class="header-stat"><strong id="attempted">0</strong> / 225</span>
+        <span class="header-stat"><strong id="attempted">0</strong> / 250</span>
     </div>
 </header>
 
@@ -437,7 +437,7 @@
         </div>
 
         <div class="score-display">
-            <span class="score-big" id="scoreNum">0</span><span class="score-total"> / 225</span>
+            <span class="score-big" id="scoreNum">0</span><span class="score-total"> / 250</span>
             <div class="score-pct" id="scorePct">0%</div>
             <div class="grade-badge" id="gradeBadge">-</div>
         </div>
@@ -469,7 +469,7 @@
 </div>
 
 <script>
-    const TOTAL    = 225; // 9 blocks of 25 questions
+    const TOTAL    = 250; // 10 blocks of 25 questions
     const PER_PAGE = 25;
     const PAGES    = TOTAL / PER_PAGE;
 
@@ -581,7 +581,23 @@
     }
 
     /* ────────────────────────────────────────────────
-       Generate all 225 questions following the logic blocks
+           Multiplication: 1 to 10 Tables ONLY
+        ──────────────────────────────────────────────── */
+        function makeMulTableQ() {
+            const a = rand(1, 10);
+            const b = rand(1, 10);
+            const correct = a * b;
+
+            return {
+                text: `${a} × ${b}`,
+                options: buildOptions(correct, 1, 20),
+                correct,
+                type: 'mul'
+            };
+        }
+
+    /* ────────────────────────────────────────────────
+       Generate all 250 questions following the logic blocks
     ──────────────────────────────────────────────── */
     function generateQuestions() {
         if (questions.length >= TOTAL) return;
@@ -622,6 +638,8 @@
 
         // 9. 25 ques: 2 digit 5 rows (+ -)
         let b9 = []; for(let i=0; i<25; i++) b9.push(makeRowsQ(2, 5)); appendShuffled(b9);
+
+        let b10 = []; for (let i = 0; i < 25; i++) b10.push(makeMulTableQ()); appendShuffled(b10);
 
         questions = pool;
         sessionStorage.setItem('l2_questions', JSON.stringify(questions));
