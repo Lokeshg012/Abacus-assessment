@@ -221,7 +221,7 @@
     <div class="header-right">
         <span class="header-stat"><strong class="timer-val" id="timer">10:00</strong></span>
         <span class="divider-dot"></span>
-        <span class="header-stat"><strong id="attempted">0</strong> / 277</span>
+        <span class="header-stat"><strong id="attempted">0</strong> / 267</span>
     </div>
 </header>
 
@@ -270,7 +270,7 @@
         </div>
 
         <div class="score-display">
-            <span class="score-big" id="scoreNum">0</span><span class="score-total"> / 277</span>
+            <span class="score-big" id="scoreNum">0</span><span class="score-total"> / 267</span>
             <div class="score-pct" id="scorePct">0%</div>
             <div class="grade-badge" id="gradeBadge">-</div>
         </div>
@@ -302,7 +302,7 @@
 </div>
 
 <script>
-    const TOTAL    = 277; 
+    const TOTAL    = 267; 
     const PER_PAGE = 25;
     const PAGES    = Math.ceil(TOTAL / PER_PAGE);
 
@@ -651,7 +651,7 @@
             pool.push(...block);
         };
 
-        // Generation mapped precisely to user counts (Total = 277)
+        // Generation mapped precisely to user counts (Total = 267)
         let b;
         b=[]; for(let i=0;i<5;i++) b.push(makeAddQ(3,3)); appendShuffled(b);
         b=[]; for(let i=0;i<5;i++) b.push(makeAddQ(4,4)); appendShuffled(b);
